@@ -6,16 +6,16 @@ import Price from "../components/ui/Price";
 import Book from "../components/ui/Book";
 
 const BookInfo = ({ books, addToCart, cart }) => {
-    const { id } = useParams();
-    const book = books.find((book) => +book.id === +id);
+  const { id } = useParams();
+  const book = books.find((book) => +book.id === +id);
 
-    function addBookToCart(book) {
-        addToCart(book)
-    }
+  function addBookToCart(book) {
+    addToCart(book);
+  }
 
-    function bookExistsOnCart() {
-        return cart.find((book) => book.id === +id);
-    }
+  function bookExistsOnCart() {
+    return cart.find((book) => book.id === +id);
+  }
 
   return (
     <div id="books__body">
@@ -59,7 +59,9 @@ const BookInfo = ({ books, addToCart, cart }) => {
                   </p>
                 </div>
                 {bookExistsOnCart() ? (
-                  <Link to= {`/cart/${book.id}`} className="book__link"><button className="btn">Checkout</button></Link>
+                  <Link to={`/cart/${book.id}`} className="book__link">
+                    <button className="btn">Checkout</button>
+                  </Link>
                 ) : (
                   <button className="btn" onClick={() => addBookToCart(book)}>
                     Add to cart
@@ -71,16 +73,18 @@ const BookInfo = ({ books, addToCart, cart }) => {
         </div>
 
         <div className="books__container">
-          <div className="book__selected--top">
-            <h2 className="book__selected--title--top">Recommended Books</h2>
+          <div className="row">
+            <div className="book__selected--top">
+              <h2 className="book__selected--title--top">Recommended Books</h2>
+            </div>
+
+            {books
+              .filter((book) => book.rating === 5 && +book.id !== +id)
+              .slice(0, 4)
+              .map((book) => (
+                <Book book={book} key={book.id} />
+              ))}
           </div>
-          
-          {books
-            .filter((book) => book.rating === 5 && +book.id !== +id)
-            .slice(0, 4)
-            .map((book) => (
-              <Book book={book} key={book.id} />
-            ))}
         </div>
       </main>
     </div>
