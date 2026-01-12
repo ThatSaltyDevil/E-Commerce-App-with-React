@@ -14,7 +14,7 @@ const BookInfo = ({ books, addToCart, cart }) => {
   }
 
   function bookExistsOnCart() {
-    return cart.find((book) => book.id === +id);
+    return cart.find((book) => +book.id === +id);
   }
 
   return (
@@ -59,7 +59,7 @@ const BookInfo = ({ books, addToCart, cart }) => {
                   </p>
                 </div>
                 {bookExistsOnCart() ? (
-                  <Link to={`/cart/${book.id}`} className="book__link">
+                  <Link to={"/cart"} className="book__link">
                     <button className="btn">Checkout</button>
                   </Link>
                 ) : (
@@ -77,13 +77,14 @@ const BookInfo = ({ books, addToCart, cart }) => {
             <div className="book__selected--top">
               <h2 className="book__selected--title--top">Recommended Books</h2>
             </div>
-
-            {books
-              .filter((book) => book.rating === 5 && +book.id !== +id)
-              .slice(0, 4)
-              .map((book) => (
-                <Book book={book} key={book.id} />
-              ))}
+            <div className="books">
+              {books
+                .filter((book) => book.rating === 5 && +book.id !== +id)
+                .slice(0, 4)
+                .map((book) => (
+                  <Book book={book} key={book.id} />
+                ))}
+            </div>
           </div>
         </div>
       </main>
