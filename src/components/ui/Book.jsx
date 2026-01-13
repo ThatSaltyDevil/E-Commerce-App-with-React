@@ -10,8 +10,11 @@ const Book = ({ book }) => {
   const mountedRef = useRef(true);
 
   useEffect(() => {
+    mountedRef.current = true; // Reset to true when effect runs
+
     const image = new Image();
     image.src = book.url;
+
     image.onload = () => {
       setTimeout(() => {
         if (mountedRef.current) {
@@ -19,11 +22,11 @@ const Book = ({ book }) => {
         }
       }, 300);
     };
+
     return () => {
-      // When the component unmounts
       mountedRef.current = false;
-    }
-  }, [])
+    };
+  }, [book.url]);
 
   return (
     <div className="book">
